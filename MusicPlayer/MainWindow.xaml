@@ -5,27 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MusicPlayer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="AIMP" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
     <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" SpreadMethod="Repeat">
                 <GradientStop Color="Black" Offset="1"/>
-                <GradientStop Color="#FFF3FF00" Offset="0.6"/>
+                <GradientStop Color="YellowGreen" Offset="0.6"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <Button x:Name="btnOpen" Click="btnOpen_Click" Content="Open File..." HorizontalAlignment="Left" Margin="17,162,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="btnPlay" Click="btnPlay_Click" Content="Play" HorizontalAlignment="Left" Margin="131,154,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
-        <Button x:Name="btnPause" Content="Pause" HorizontalAlignment="Left" Margin="211,154,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
-        <Button x:Name="btnStop" Content="Stop" HorizontalAlignment="Left" Margin="291,154,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
-        <Label x:Name="lblTime" Content="-----" HorizontalAlignment="Left" Margin="371,121,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.471,0.295"/>
-        <Label x:Name="lblBiasa" Content="Now Playing :" HorizontalAlignment="Left" Margin="17,68,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label x:Name="lblName" Content="(No Song...)" HorizontalAlignment="Left" Margin="17,94,0,0" VerticalAlignment="Top"/>
-        <Slider x:Name="sliProgress" HorizontalAlignment="Left" Margin="17,125,0,0" VerticalAlignment="Top" Width="354"/>
-        <Slider x:Name="sliderVol" Value="0.5" Minimum="0" HorizontalAlignment="Left" Margin="436,92,0,0" VerticalAlignment="Top" Width="33" TickPlacement="BottomRight" Cursor="Arrow" Orientation="Vertical" Height="121" TickFrequency="0.1" SmallChange="0.01" LargeChange="0.1" Maximum="1"/>
+        <Button x:Name="openButton" Click="OpenButton_Click" Content="Open File..." 
+                HorizontalAlignment="Left" Margin="17,162,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="playButton" Click="PlayButton_Click" Content="Play" 
+                HorizontalAlignment="Left" Margin="116,152,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
+        <Button x:Name="pauseButton" Click="PauseButton_Click" Content="Pause" 
+                HorizontalAlignment="Left" Margin="196,152,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
+        <Button x:Name="stopButton" Click="StopButton_Click" Content="Stop" 
+                HorizontalAlignment="Left" Margin="276,152,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
+        <Label x:Name="timeLabel" Content="----------" HorizontalAlignment="Left" Margin="356,120,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.471,0.295"/>
+        <Label Content="Now Playing :" HorizontalAlignment="Left" Margin="17,68,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label x:Name="musicName" Content="(No Song...)" HorizontalAlignment="Left" Margin="17,94,0,0" VerticalAlignment="Top" Width="412"/>
+        <Slider x:Name="progressSlider" 
+                Thumb.DragStarted="ProgressSlider_DragStarted" Thumb.DragCompleted="ProgressSlider_DragCompleted"
+                HorizontalAlignment="Left" Margin="17,125,0,0" VerticalAlignment="Top" Width="334"/>
         <Label x:Name="label" Content="MUSIC PLAYER" HorizontalAlignment="Left" Margin="173,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="22"/>
-        <Label x:Name="label1" Content="Volume" HorizontalAlignment="Left" Margin="423,64,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <CheckBox x:Name="chkKaraoke" Content="Karaoke" HorizontalAlignment="Left" Margin="286,78,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="checkBox" Content="Bass Boost" HorizontalAlignment="Left" Margin="286,99,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.743,0.625"/>
-        <ListBox x:Name="listBox" MouseDoubleClick="listBox_MouseDoubleClick" HorizontalAlignment="Left" Height="139" Margin="17,189,0,0" VerticalAlignment="Top" Width="388" />
+        <Label Content="Текст:" FontWeight="Bold" HorizontalAlignment="Left" Margin="17,202,0,0" VerticalAlignment="Top" Height="26" Width="75"/>
+        <Image Source="Pictures/music_1.jpg"
+            HorizontalAlignment="Left" Height="322" Margin="457,50,0,0" VerticalAlignment="Top" Width="301"/>
+        <TextBox Name="noteTextBox" HorizontalAlignment="Left" Height="169" Margin="17,228,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="397"/>
     </Grid>
 </Window>

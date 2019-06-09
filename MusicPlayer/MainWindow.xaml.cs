@@ -1,6 +1,8 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.IO;
+using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -14,7 +16,7 @@ namespace MusicPlayer
     public partial class MainWindow : Window
     {
         private MediaPlayer mediaPlayer = new MediaPlayer();
-        private bool userIsDraggingSlider = false;
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -34,24 +36,38 @@ namespace MusicPlayer
 
         private void OpenButton_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "MP3 files (*.mp3)|*.mp3|All files (*.*)|*.*";
-            if (openFileDialog.ShowDialog() == true)
+            Thread thread = new Thread(delegate ()
             {
-                mediaPlayer.Open(new Uri(openFileDialog.FileName));
-                musicName.Content = Path.GetFileName(openFileDialog.FileName);
-                mediaPlayer.Play();
-            }
+                Action action = () =>
+                {
+                    OpenFileDialog openFileDialog = new OpenFileDialog();
+                    openFileDialog.Filter = "MP3 files (*.mp3)|*.mp3|All files (*.*)|*.*";
+                    if (openFileDialog.ShowDialog() == true)
+                    {
+                        mediaPlayer.Open(new Uri(openFileDialog.FileName));
+                        musicName.Content = Path.GetFileName(openFileDialog.FileName);
+                    }
+                };
+
+                if (!Dispatcher.CheckAccess())
+                    Dispatcher.Invoke(action);
+                else
+                    action();
+            })
+            {
+                IsBackground = false
+            };
+            thread.Start();
+        }
+        
+        private void PlayButton_Click(object sender, RoutedEventArgs e)
+        {
+            mediaPlayer.Play();
 
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += Timer_Tick;
             timer.Start();
-        }
-
-        private void PlayButton_Click(object sender, RoutedEventArgs e)
-        {
-            mediaPlayer.Play();
         }
 
         private void PauseButton_Click(object sender, RoutedEventArgs e)
@@ -63,20 +79,34 @@ namespace MusicPlayer
         {
             mediaPlayer.Stop();
         }
-
-        private void ProgressSlider_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
-        {
-            userIsDraggingSlider = true;
-        }
-
+        
         private void ProgressSlider_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
         {
-            userIsDraggingSlider = false;
             mediaPlayer.Position = TimeSpan.FromSeconds(progressSlider.Value);
+        }
+        public void SaveNotes()
+        {
+            using(var writer = new StreamWriter("file.txt", false, Encoding.Default))
+            {
+                writer.WriteLine(notesTextBox.Text);
+            }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Thread thread = new Thread(delegate ()
+            {
+                Action action = () =>
+                {
+                    SaveNotes();
+                };
+
+                if (!Dispatcher.CheckAccess())
+                    Dispatcher.Invoke(action);
+                else
+                    action();
+            });
+            thread.Start();
         }
     }
 }
-/*Создать приложение, которое позволяет проигрывать в фоне музыку (с использованием потока-демона), 
-а также вести текстовые записи.
-При закрытии приложения текстовые записи должны быть сохранены в отдельном потоке в файл 
-(не используйте асинхронность для наглядности примера).*/

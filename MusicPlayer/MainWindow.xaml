@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="AIMP" Height="450" Width="800"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize">
+        Closing="Window_Closing">
     <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" SpreadMethod="Repeat">
@@ -27,12 +27,12 @@
         <Label Content="Now Playing :" HorizontalAlignment="Left" Margin="17,68,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
         <Label x:Name="musicName" Content="(No Song...)" HorizontalAlignment="Left" Margin="17,94,0,0" VerticalAlignment="Top" Width="412"/>
         <Slider x:Name="progressSlider" 
-                Thumb.DragStarted="ProgressSlider_DragStarted" Thumb.DragCompleted="ProgressSlider_DragCompleted"
+                Thumb.DragCompleted="ProgressSlider_DragCompleted"
                 HorizontalAlignment="Left" Margin="17,125,0,0" VerticalAlignment="Top" Width="334"/>
         <Label x:Name="label" Content="MUSIC PLAYER" HorizontalAlignment="Left" Margin="173,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="22"/>
         <Label Content="Текст:" FontWeight="Bold" HorizontalAlignment="Left" Margin="17,202,0,0" VerticalAlignment="Top" Height="26" Width="75"/>
         <Image Source="Pictures/music_1.jpg"
             HorizontalAlignment="Left" Height="322" Margin="457,50,0,0" VerticalAlignment="Top" Width="301"/>
-        <TextBox Name="noteTextBox" HorizontalAlignment="Left" Height="169" Margin="17,228,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="397"/>
+        <TextBox Name="notesTextBox" HorizontalAlignment="Left" Height="169" Margin="17,228,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="397"/>
     </Grid>
 </Window>
